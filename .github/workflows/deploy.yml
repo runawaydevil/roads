@@ -31,8 +31,12 @@ jobs:
         env:
           VITE_BASE_PATH: /roads/
       
+      - name: Add .nojekyll file
+        run: touch dist/.nojekyll
+      
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+          cname: false
