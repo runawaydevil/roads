@@ -90,9 +90,14 @@ export default function request(url, options) {
       if (progress.isCancelled) return;
 
       if (req.status !== 200) {
+        // Não logar erros esperados (403, 404, 504) que têm fallback
+        const expectedErrors = [403, 404, 504];
+        const shouldLog = !expectedErrors.includes(req.status);
+        
         reject({
           statusError: req.status,
-          message: `Status ${req.status} ao chamar ${url}`
+          message: `Status ${req.status} ao chamar ${url}`,
+          silent: !shouldLog // Flag para indicar se deve logar
         });
         return;
       }

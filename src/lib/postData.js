@@ -35,12 +35,18 @@ export default function postData(data, progress) {
   function handleError(err) {
     if (err.cancelled) throw err;
 
-    console.warn(`Erro ao acessar ${backends[serverIndex]}:`, err.message || err);
+    // Log de debug ao invés de warning
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(`[Overpass] Tentando alternativa após erro em ${backends[serverIndex]}`);
+    }
 
     // Se foi erro de timeout ou 504, tentar retry no mesmo servidor
     if ((err.statusError === 504 || err.timeout) && retryCount < maxRetries) {
       retryCount++;
-      console.log(`Tentativa ${retryCount} de ${maxRetries} no mesmo servidor...`);
+      
+      if (process.env.NODE_ENV !== 'production') {
+        console.log(`[Overpass] Retry ${retryCount}/${maxRetries} no mesmo servidor`);
+      }
       
       progress.notify({
         loaded: -1,
@@ -67,7 +73,11 @@ export default function postData(data, progress) {
 
     serverIndex += 1;
     retryCount = 0; // Reset retry count para o novo servidor
-    console.log(`Tentando servidor alternativo: ${backends[serverIndex]}`);
+    
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(`[Overpass] Mudando para servidor: ${backends[serverIndex]}`);
+    }
+    
     return fetchFrom(backends[serverIndex])
   }
 }

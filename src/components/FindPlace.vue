@@ -226,7 +226,10 @@ export default {
         this.$emit('loaded', grid);
       }).catch(error => {
         // Se cache falhar (403, 404, timeout), usar OSM diretamente
-        console.warn('Cache não disponível, usando OpenStreetMap:', error.message || error);
+        // Log apenas em desenvolvimento
+        if (process.env.NODE_ENV !== 'production') {
+          console.log('[Cache] Não disponível, usando OpenStreetMap diretamente');
+        }
         throw error; // Propagar erro para usar fallback
       });
     },
@@ -257,7 +260,10 @@ export default {
           this.loading = null;
           return;
         }
-        console.error(err);
+        // Apenas logar erros reais no console em desenvolvimento
+        if (process.env.NODE_ENV !== 'production') {
+          console.error('[OpenStreetMap] Erro:', err);
+        }
         this.error = err;
         this.loading = null;
         this.suggestions = [];
