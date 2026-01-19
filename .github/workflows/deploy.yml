@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 permissions:
-  contents: read
+  contents: write  # Necessário para push na branch gh-pages
   pages: write
   id-token: write
 
