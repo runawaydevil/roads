@@ -53,11 +53,11 @@
       Desculpe pela demora!
     </div>
   </div>
-  
-  <!-- Rodapé com informações do desenvolvedor -->
-  <div class='footer-initial'>
-    Desenvolvido por <a href='mailto:runawaydevil@pm.me'>Pablo Murad</a> - 2026
-  </div>
+</div>
+
+<!-- Rodapé com informações do desenvolvedor - fora do find-place -->
+<div class='footer-initial'>
+  Desenvolvido por <a href='mailto:runawaydevil@pm.me'>Pablo Murad</a> - 2026
 </div>
 </template>
 
