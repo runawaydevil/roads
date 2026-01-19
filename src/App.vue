@@ -184,7 +184,7 @@ export default {
       appState.unset('areaId');
       appState.unsetPlace();
       appState.unset('q');
-      appState.enableCache();
+      appState.disableCache();
 
       this.dispose();
       this.placeFound = false;
@@ -262,7 +262,6 @@ export default {
     zazzleMugPrint() {
       if (this.zazzleLink) {
         window.open(this.zazzleLink, '_blank');
-        recordOpenClick(this.zazzleLink);
         return;
       }
 
@@ -271,7 +270,6 @@ export default {
         generateZazzleLink(printableCanvas).then(link => {
           this.zazzleLink = link;
           window.open(link, '_blank');
-          recordOpenClick(link);
           this.generatingPreview = false;
         }).catch(e => {
           this.error = e;
@@ -284,15 +282,6 @@ export default {
 
 function toRGBA(c) {
     return `rgba(${c.r}, ${c.g}, ${c.b}, ${c.a})`;
-}
-
-function recordOpenClick(link) {
-  if (typeof gtag === 'undefined') return;
-
-  gtag('event', 'click', {
-    'event_category': 'Outbound Link',
-    'event_label': link
-  });
 }
 </script>
 

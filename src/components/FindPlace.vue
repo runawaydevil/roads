@@ -1,8 +1,8 @@
 <template>
 <div class='find-place' :class='{centered: boxInTheMiddle }'>
   <div v-if='boxInTheMiddle'>
-    <h3 class='site-header'>city roads</h3>
-    <p class='description'>Este site renderiza todas as ruas de uma cidade</p>
+    <h3 class='site-header'>Roads</h3>
+    <p class='description'>Renderize todas as ruas de qualquer cidade</p>
   </div>
   <form v-on:submit.prevent="onSubmit" class='search-box'>
       <input class='query-input' v-model='enteredInput' type='text' placeholder='Digite o nome de uma cidade para começar' ref='input'>

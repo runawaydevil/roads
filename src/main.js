@@ -9,8 +9,6 @@ import Query from './lib/Query.js';
 
 // const wgl = require('w-gl');
 
-window.addEventListener('error', logError);
-
 // expose the console API
 window.requireModule = d3Require;
 window.Query = Query;
@@ -19,15 +17,4 @@ if (isWebGLEnabled(document.querySelector('#canvas'))) {
   createApp(App).mount('#host');
 } else {
   createApp(NoWebGL).mount('#host');
-}
-
-function logError(e) {
-  if (typeof gtag !== 'function') return;
-
-  const exDescription = e ? `${e.message} in ${e.filename}:${e.lineno}` : 'Unknown exception';
-
-  gtag('send', 'exception', {
-    description: exDescription,
-    fatal: false
-  });
 }

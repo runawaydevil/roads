@@ -8,9 +8,13 @@ const queryState = createQueryState({}, {useSearch: true});
  */
 export default {
   isCacheEnabled() {
-    return queryState.get('cache') != 0;
+    // Cache desabilitado por padrão devido a problemas de acesso ao CloudFront
+    return queryState.get('cache') == 1;
   },
   enableCache() {
+    return queryState.set('cache', 1);
+  },
+  disableCache() {
     return queryState.unset('cache');
   },
   get() {

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" fill="#F7F2E8"/>
+  <g stroke="#1a1a1a" stroke-width="2" fill="none" opacity="0.8">
+    <!-- Grid de ruas simulando um mapa -->
+    <line x1="20" y1="30" x2="80" y2="30"/>
+    <line x1="20" y1="50" x2="80" y2="50"/>
+    <line x1="20" y1="70" x2="80" y2="70"/>
+    <line x1="30" y1="20" x2="30" y2="80"/>
+    <line x1="50" y1="20" x2="50" y2="80"/>
+    <line x1="70" y1="20" x2="70" y2="80"/>
+    <!-- Ruas diagonais -->
+    <line x1="25" y1="25" x2="75" y2="75"/>
+    <line x1="75" y1="25" x2="25" y2="75"/>
+  </g>
+</svg>
