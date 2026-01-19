@@ -53,6 +53,11 @@
       Desculpe pela demora!
     </div>
   </div>
+  
+  <!-- Rodapé com informações do desenvolvedor -->
+  <div class='footer-initial'>
+    Desenvolvido por <a href='mailto:runawaydevil@pm.me'>Pablo Murad</a> - 2026
+  </div>
 </div>
 </template>
 
@@ -489,6 +494,23 @@ input {
   font-size: 12px;
 }
 
+.footer-initial {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+  a {
+    color: highlight-color;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
 @media (max-width: small-screen) {
   .find-place {
     width: 100%;
@@ -506,6 +528,10 @@ input {
     .note {
       font-size: 9px;
     }
+  }
+  .footer-initial {
+    font-size: 10px;
+    bottom: 8px;
   }
 }
 

@@ -69,6 +69,11 @@
 
   <editable-label v-if='placeFound' v-model='name' class='city-name' :printable='true' :style='{color: labelColorRGBA}' :overlay-manager='overlayManager'></editable-label>
   <div v-if='placeFound' class='license printable can-drag' :style='{color: labelColorRGBA}'>dados <a href='https://www.openstreetmap.org/about/' target="_blank" :style='{color: labelColorRGBA}'>© OpenStreetMap</a></div>
+  
+  <!-- Rodapé com informações do desenvolvedor -->
+  <div class='footer printable' :style='{color: labelColorRGBA}'>
+    Desenvolvido por <a href='mailto:runawaydevil@pm.me' :style='{color: labelColorRGBA}'>Pablo Murad</a> - 2026
+  </div>
 </template>
 
 <script>
@@ -467,6 +472,23 @@ a:focus {
   }
 }
 
+.footer {
+  text-align: left;
+  position: fixed;
+  font-family: labels-font;
+  left: 32px;
+  bottom: 32px;
+  font-size: 12px;
+  padding-left: 8px;
+  a {
+    text-decoration: none;
+    display: inline-block;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
 .c-2 {
   flex: 2
 }
@@ -495,6 +517,10 @@ a:focus {
   }
   .license  {
     right: 8px;
+    bottom: 8px;
+  }
+  .footer {
+    left: 8px;
     bottom: 8px;
   }
 }
