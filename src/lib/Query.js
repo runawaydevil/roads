@@ -51,6 +51,11 @@ export default class Query {
     this.promise = runAllNominmantimQueries(parts)
       .then(resolvedQueryString => postData(resolvedQueryString, this.progress))
       .then(osmResponse => {
+        // Validar resposta antes de acessar propriedades
+        if (!osmResponse || !osmResponse.elements) {
+          throw new Error('Resposta inválida da API do OpenStreetMap. Por favor, tente novamente.');
+        }
+        
         let grid = Grid.fromOSMResponse(osmResponse.elements)
         grid.queryBounds = this.queryBounds;
         return grid;

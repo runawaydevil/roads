@@ -214,7 +214,8 @@ export default {
 
       return request(config.areaServer + '/' + areaId + '.pbf', {
         progress: this.generateNewProgressToken(),
-        responseType: 'arraybuffer'
+        responseType: 'arraybuffer',
+        timeout: 15000 // 15 segundos de timeout para cache
       }).then(arrayBuffer => {
         var byteArray = new Uint8Array(arrayBuffer);
         return byteArray;
@@ -223,6 +224,10 @@ export default {
         var obj = place.read(pbf);
         let grid = Grid.fromPBF(obj)
         this.$emit('loaded', grid);
+      }).catch(error => {
+        // Se cache falhar (403, 404, timeout), usar OSM diretamente
+        console.warn('Cache não disponível, usando OpenStreetMap:', error.message || error);
+        throw error; // Propagar erro para usar fallback
       });
     },
 

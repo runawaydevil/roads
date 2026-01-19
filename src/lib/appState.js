@@ -8,14 +8,14 @@ const queryState = createQueryState({}, {useSearch: true});
  */
 export default {
   isCacheEnabled() {
-    // Cache desabilitado por padrão devido a problemas de acesso ao CloudFront
-    return queryState.get('cache') == 1;
+    // Cache habilitado por padrão, pode ser desabilitado com ?cache=0
+    return queryState.get('cache') != 0;
   },
   enableCache() {
-    return queryState.set('cache', 1);
+    return queryState.unset('cache');
   },
   disableCache() {
-    return queryState.unset('cache');
+    return queryState.set('cache', 0);
   },
   get() {
     return queryState.get.apply(queryState, arguments);
