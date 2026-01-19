@@ -213,9 +213,9 @@ export default {
       let areaId = suggestion.areaId;
 
       return request(config.areaServer + '/' + areaId + '.pbf', {
-        progress: this.generateNewProgressToken(),
         responseType: 'arraybuffer',
-        timeout: 15000 // 15 segundos de timeout para cache
+        timeout: 15000, // 15 segundos de timeout para cache
+        silentFallback: true // Usar Fetch API para não logar erro 403 no console
       }).then(arrayBuffer => {
         var byteArray = new Uint8Array(arrayBuffer);
         return byteArray;

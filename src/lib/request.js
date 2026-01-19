@@ -1,7 +1,88 @@
 import Progress from './Progress.js';
 
+/**
+ * Faz requisição HTTP com suporte a progress tracking e timeout.
+ * Usa Fetch API quando possível para evitar logs de erro no console do navegador.
+ */
 export default function request(url, options) {
   if (!options) options = {};
+  
+  // Se não precisa de progress tracking e é uma requisição que pode falhar,
+  // usar Fetch API para evitar logs de erro no console
+  const canUseFetch = !options.progress || options.silentFallback;
+  
+  if (canUseFetch && typeof fetch !== 'undefined') {
+    return fetchRequest(url, options);
+  }
+  
+  // Fallback para XMLHttpRequest quando precisa de progress
+  return xhrRequest(url, options);
+}
+
+/**
+ * Implementação usando Fetch API (não loga erros de rede no console)
+ */
+function fetchRequest(url, options) {
+  const controller = new AbortController();
+  const signal = controller.signal;
+  let timeoutId = null;
+
+  const fetchOptions = {
+    method: options.method || 'GET',
+    headers: options.headers || {},
+    signal
+  };
+
+  if (options.method === 'POST' && options.body) {
+    fetchOptions.body = options.body;
+  }
+
+  // Configurar timeout
+  if (options.timeout) {
+    timeoutId = setTimeout(() => {
+      controller.abort();
+    }, options.timeout);
+  }
+
+  return fetch(url, fetchOptions)
+    .then(response => {
+      if (timeoutId) clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        throw {
+          statusError: response.status,
+          message: `Status ${response.status} ao chamar ${url}`,
+          silent: true // Fetch não loga no console
+        };
+      }
+
+      if (options.responseType === 'json') {
+        return response.json();
+      } else if (options.responseType === 'arraybuffer') {
+        return response.arrayBuffer();
+      } else {
+        return response.text();
+      }
+    })
+    .catch(err => {
+      if (timeoutId) clearTimeout(timeoutId);
+      
+      if (err.name === 'AbortError') {
+        throw {
+          timeout: true,
+          message: `Timeout após ${options.timeout}ms ao chamar ${url}`,
+          silent: true
+        };
+      }
+      
+      throw err;
+    });
+}
+
+/**
+ * Implementação usando XMLHttpRequest (com progress tracking)
+ */
+function xhrRequest(url, options) {
   let req;
   let progress = options.progress || new Progress();
   let isCancelled = false;
