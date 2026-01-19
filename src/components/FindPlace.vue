@@ -461,6 +461,7 @@ input {
   flex-direction: column;
   top: 8px;
   left: 50%;
+  z-index: 10;
 
   transform: translateX(-50%) translateY(0);
   transition-timing-function: ease-out;
@@ -502,9 +503,12 @@ input {
   font-size: 12px;
   color: #666;
   text-align: center;
+  z-index: 0;
+  pointer-events: none;
   a {
     color: highlight-color;
     text-decoration: none;
+    pointer-events: auto;
     &:hover {
       text-decoration: underline;
     }
